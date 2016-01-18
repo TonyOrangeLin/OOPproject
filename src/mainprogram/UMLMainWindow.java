@@ -18,6 +18,9 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import line.Associationline;
+import line.Compositionline;
+import line.Generalizationline;
 import line.LineBase;
 
 public class UMLMainWindow extends JFrame implements ActionListener
@@ -130,92 +133,187 @@ public class UMLMainWindow extends JFrame implements ActionListener
     int y1;
     int x2;
     int y2;
-    private void jPanel2MousePressed(MouseEvent evt) {
-  	  x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
-  	  y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
-
+    BaseElement tempElement;
+    LocEnum tempStart;
+    private void jPanel2MousePressed(MouseEvent evt) 
+    {
+    	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
+  	  	y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
+  	  	if (state == 2 || state == 3 || state == 4)
+  	    {
+	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
+	  	  	{
+	  	  		if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+	  	  		{
+	  	  			if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+	  	  			{
+	  	  				tempElement = (BaseElement) elementArray.get(i);
+	  	  				tempStart = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
+	  	  				break;
+	  	  			}  
+	  	  		}
+	  	  	}
+  	    }
     }
 
 
     //mouse released//
-    private void jPanel2MouseReleased(MouseEvent evt) {
+    private void jPanel2MouseReleased(MouseEvent evt) 
+    {
     	x2 = evt.getX();
     	y2 = evt.getY();
-    	if (x1 == x2 && y1 == y2)
+    	if (x1 == x2 && y1 == y2)//not drag
     	{
-    		//not drag
-    	  	  if (state == 1)
+    	  	if (state == 1)
+    	  	{
+    	 	  //selectCount = 0;
+     		  for (int j = 0; j < elementArray.size(); j++)
+  	  		  {
+    	  	  ((BaseElement)elementArray.get(j)).setSelect(false);
+    	  	  }
+     		  for (int i = elementArray.size() - 1; i >= 0; i--)
     	  	  {
-    	  		  //selectCount = 0;
-    	  		  for (int j = 0; j < elementArray.size(); j++)
-    	  		  {
-    	  		  	  ((BaseElement)elementArray.get(j)).setSelect(false);
+    	  		  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+    			  {
+    	  			 if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+    	  			 {
+    	  				  ((BaseElement)elementArray.get(i)).setSelect(true);
+    					  break;
+    	  			  }  
     	  		  }
-    	  		  for (int i = elementArray.size() - 1; i >= 0; i--)
-    	  		  {
-    	  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-    	  			  {
-    	  				  
-    	  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-    	  				  {
-    	  					  ((BaseElement)elementArray.get(i)).setSelect(true);
-    	  					  //selectCount++;
-    	  					  //startIndex = i;
-    	  					  //objectmovePressed = true;
-    	  					  Graphics g=getGraphics();
-    	  					  paint(g);
-    	  					  break;
-    	  				  }  
-    	  			  }
-    	  		  }
-//    	  		  if ( selectCount == 0)
-//    	  		  {
-//    	  			  isPressed = true;
-//    	  		  }
-    	  		  Graphics g=getGraphics();
-    	  		  paint(g);
     	  	  }
-    	  	  if (state == 2 || state == 3 || state == 4)
-    	  	  {
-//    	  		  for (int i = elementArray.size() - 1; i >= 0; i--)
-//    	  		  {
-//    	  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-//    	  			  {
-//    	  				  
-//    	  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-//    	  				  {
-//    	  					  //((BaseElement)elementArray.get(i)).setSelect(true);
-//    	  					  //selectCount++;
-//    	  					  //Graphics g=getGraphics();
-//    	  					  //paint(g);
-//    	  					  //startposition = 0;
-//    	  					  startposition = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
-//    	  					  drawLinePressed = true;
-//    	  					  startIndex = i;
-//    	  					  break;
-//    	  				  }  
-//    	  			  }
-//    	  		  }
-    	    
-    	  	  }
-    	  	  if (state == 5)
-    	  	  {
-    	  		  elementArray.add(new ClassElement(x1, y1, elementArray.size()+1));  
-    	  		  Graphics g=getGraphics();
-    	  		  paint(g);
-    	  	  }
-    	  	  if (state == 6)
-    	  	  {
-    	  		  elementArray.add(new UseClassElement(x1, y1, elementArray.size()+1));  
-    	  		  Graphics g=getGraphics();
-    	  		  paint(g);
-    	  	  }
+    	  	  Graphics g=getGraphics();
+    		  paint(g);
+   	  	  }
+     	  if (state == 5)
+    	  {
+    		  elementArray.add(new ClassElement(x1, y1, elementArray.size()+1));  
+  	  		  Graphics g=getGraphics();
+    	  	  paint(g);
+    	  }
+    	  if (state == 6)
+     	  {
+      		  elementArray.add(new UseClassElement(x1, y1, elementArray.size()+1));  
+      		  Graphics g=getGraphics();
+      		  paint(g);
+   	  	  }
     	}
     	else//drag
     	{
-    		
+    		if (state == 1)
+    		{
+    			for (int i = elementArray.size() - 1; i >= 0; i--)
+    			{
+    				  if (x1 <= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+    				  {
+    					  if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 >= ((BaseElement)elementArray.get(i)).getRightX() )
+    					  {
+    						  if (y1 <= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+    						  {
+    							  if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 >= ((BaseElement)elementArray.get(i)).getRightY() )
+    							  {
+    								  ((BaseElement)elementArray.get(i)).setSelect(true);	
+    							  }	 
+    						  }  
+    					  }
+    				  }
+    			}
+    		}
+    		if (state == 2 || state == 3 || state == 4)
+  	  	    {
+    			if (tempElement != null)
+    			{
+	  	  		  	for (int i = elementArray.size() - 1; i >= 0; i--)
+	  	  		  	{
+	  	  		  		if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 <= ((BaseElement)elementArray.get(i)).getRightX() )
+	  	  		  		{ 				  
+	  	  		  			if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 <= ((BaseElement)elementArray.get(i)).getRightY() )
+	  	  		  			{
+	  	  		  				  LocEnum tempEnd = DecidePosition(((BaseElement)elementArray.get(i)), x2 , y2);
+	  	  		  				  if (state == 2)
+	  	  		  			 	  {
+									  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+								  }
+								  if (state == 3)
+								  {
+									  lineArray.add(new Generalizationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+								  }
+								  if (state == 4)
+								  {
+									  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+								  }
+	  	  		  					break;
+	  	  		  			}  
+	  	  		  		}
+	  	  		  	}
+    			}
+  	    
+  	  	    }
     	}
+    	Graphics g=getGraphics();
+		  paint(g);
     }
+    
+	public LocEnum DecidePosition(BaseElement element,int inputX, int inputY)
+	{
+		if (inputX > element.getLeftX()+ element.getWidth()/3)
+		{
+			if (inputX < element.getRightX()- element.getWidth()/3)
+			{
+				if (inputY > element.getLeftY())
+				{
+					if (inputY < element.getLeftY() + element.getHeight()/2)
+					{
+						return LocEnum.UP;
+					}	
+				}
+		
+				
+			}
+		}
+		if (inputX < element.getLeftX()+ element.getWidth()/3)
+		{
+			if (inputX > element.getLeftX())
+			{
+				if (inputY > element.getLeftY())
+				{
+					if (inputY < element.getRightY())
+					{
+						return LocEnum.LEFT;
+					}	
+				}
+		
+				
+			}
+		}
+		if (inputX > element.getRightX() - element.getWidth()/3)
+		{
+			if (inputX < element.getRightX())
+			{
+				if (inputY > element.getLeftY())
+				{
+					if (inputY < element.getRightY())
+					{
+						return LocEnum.RIGHT;
+					}	
+				}				
+			}
+		}
+		if (inputX > element.getLeftX()+ element.getWidth()/3)
+		{
+			if (inputX < element.getRightX()- element.getWidth()/3)
+			{
+				if (inputY > element.getLeftY() + element.getHeight()/2)
+				{
+					if (inputY < element.getRightY())
+					{
+						return LocEnum.DOWN;
+					}	
+				}	
+			}
+		}
+		return LocEnum.DOWN;
+	}
     
     class PanelCustom extends JPanel {
 
