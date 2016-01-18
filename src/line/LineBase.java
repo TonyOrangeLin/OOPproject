@@ -11,6 +11,7 @@ public class LineBase {
 	protected BaseElement endElement;//0=left, 1=up, 2= right , 3= down
 	protected LocEnum startLocation;
 	protected LocEnum endLocation;
+	
 	public LineBase(BaseElement start, BaseElement end, LocEnum startLoc, LocEnum endLoc)
 	{
 		startElement = start;
@@ -26,82 +27,49 @@ public class LineBase {
 		int startY = 0;
 		int destX = 0;
 		int destY = 0;
-		if (startLocation == 0)
+		if (startLocation == LocEnum.LEFT)
 		{
-			startX = start.getLeftX();
-			startY = (start.getLeftY() + start.getRightY() ) / 2;
+			startX = startElement.getLeftX();
+			startY = (startElement.getLeftY() + startElement.getRightY() ) / 2;
 		}
-		if (startLocation == 1)
+		if (startLocation == LocEnum.UP)
 		{
-			startX = (start.getLeftX() + start.getRightX()) / 2 ;
-			startY = start.getLeftY();
+			startX = (startElement.getLeftX() + startElement.getRightX()) / 2 ;
+			startY = startElement.getLeftY();
 		}
-		if (startLocation == 2)
+		if (startLocation == LocEnum.RIGHT)
 		{
-			startX = start.getRightX();
-			startY = (start.getLeftY() + start.getRightY() ) / 2;
+			startX = startElement.getRightX();
+			startY = (startElement.getLeftY() + startElement.getRightY() ) / 2;
 		}
-		if (startLocation == 3)
+		if (startLocation == LocEnum.DOWN)
 		{
-			startX = (start.getLeftX() + start.getRightX()) / 2 ;
-			startY = start.getRightY();
+			startX = (startElement.getLeftX() + startElement.getRightX()) / 2 ;
+			startY = startElement.getRightY();
 		}
 		
-		if (endLocation == 0)
+		if (endLocation == LocEnum.LEFT)
 		{
-			destX = dest.getLeftX();
-			destY = (dest.getLeftY() + dest.getRightY() ) / 2;
+			destX = endElement.getLeftX();
+			destY = (endElement.getLeftY() + endElement.getRightY() ) / 2;
 		}
-		if (endLocation == 1)
+		if (endLocation == LocEnum.UP)
 		{
-			destX = (dest.getLeftX() + dest.getRightX()) / 2 ;
-			destY = dest.getLeftY();
+			destX = (endElement.getLeftX() + endElement.getRightX()) / 2 ;
+			destY = endElement.getLeftY();
 		}
-		if (endLocation == 2)
+		if (endLocation == LocEnum.RIGHT)
 		{
-			destX = (dest.getLeftX() + dest.getRightX()) / 2 ;
-			destY = dest.getRightY();
+			destX = (endElement.getLeftX() + endElement.getRightX()) / 2 ;
+			destY = endElement.getRightY();
 		}
-		if (endLocation == 3)
+		if (endLocation == LocEnum.DOWN)
 		{
-			destX = (dest.getLeftX() + dest.getRightX()) / 2 ;
-			destY = dest.getRightY();
+			destX = (endElement.getLeftX() + endElement.getRightX()) / 2 ;
+			destY = endElement.getRightY();
 		}
 		input.drawLine(startX, startY, destX, destY);
 	
 	}
-
-	public int getDestElementIndex() {
-		return destElementIndex;
-	}
-
-	public void setDestElementIndex(int destElementIndex) {
-		this.destElementIndex = destElementIndex;
-	}
-
-	public int getStartElementIndex() {
-		return startElementIndex;
-	}
-
-	public void setStartElementIndex(int startElementIndex) {
-		this.startElementIndex = startElementIndex;
-	}
-
-	public int getStartLocation() {
-		return startLocation;
-	}
-
-	public void setStartLocation(int startLocation) {
-		this.startLocation = startLocation;
-	}
-
-	public int getEndLocation() {
-		return endLocation;
-	}
-
-	public void setEndLocation(int endLocation) {
-		this.endLocation = endLocation;
-	}
-
 
 }

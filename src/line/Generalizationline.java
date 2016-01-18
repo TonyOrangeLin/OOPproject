@@ -3,18 +3,19 @@ package line;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import mainprogram.LocEnum;
 import atom.BaseElement;
 
 public class Generalizationline extends LineBase{
 	
-	public Generalizationline(int start, int end, int startLoc, int endLoc)
+	public Generalizationline(BaseElement start, BaseElement end, LocEnum startLoc, LocEnum endLoc)
 	{
 		super(start, end, startLoc, endLoc);		
 	}
 	
-	public void draw(Graphics input, BaseElement start, BaseElement dest)
+	public void draw(Graphics input)
 	{
-		super.draw(input, start, dest);
+		super.draw(input);
 		
 		if (start.getLeftX() > dest.getLeftX())
 		{

@@ -3,17 +3,18 @@ package line;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import mainprogram.LocEnum;
 import atom.BaseElement;
 
 public class Compositionline extends LineBase{
 	
-	public Compositionline(int start, int end, int startLoc, int endLoc)
+	public Compositionline(BaseElement start, BaseElement end, LocEnum startLoc, LocEnum endLoc)
 	{
 		super(start, end, startLoc, endLoc);
 	}
-	public void draw(Graphics input, BaseElement start, BaseElement dest)
+	public void draw(Graphics input)
 	{
-		super.draw(input, start, dest);
+		super.draw(input);
 		int[] arrayX = {destX, destX + 10, destX + 20 ,destX + 10, destX};  
 		int[] arrayY = {destY, destY + 10, destY ,destY - 10, destY };  
 		input.drawPolyline(arrayX, arrayY, 5);
