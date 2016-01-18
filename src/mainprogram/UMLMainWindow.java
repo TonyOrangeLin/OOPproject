@@ -24,6 +24,7 @@ import line.Compositionline;
 import line.Generalizationline;
 import line.LineBase;
 
+
 public class UMLMainWindow extends JFrame implements ActionListener
 {
 	private JPanel paintPanel;
@@ -46,6 +47,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
     BaseElement tempElement;
     LocEnum tempStart;
     Setstringwindow setStringWindow;
+    
 	public UMLMainWindow() {
 
 		setResizable(false);
@@ -140,6 +142,20 @@ public class UMLMainWindow extends JFrame implements ActionListener
     {
     	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
   	  	y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
+  	  	if (state == 1)
+  	  	{
+	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
+	  	  	{
+	  	  		if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+	  	  		{
+	  	  			if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+	  	  			{
+	  	  				tempElement = (BaseElement) elementArray.get(i);
+	  	  				break;
+	  	  			}  
+	  	  		}
+	  	  	}
+  	  	}
   	  	if (state == 2 || state == 3 || state == 4)
   	    {
 	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
@@ -168,7 +184,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	 	  //selectCount = 0;
      		  for (int j = 0; j < elementArray.size(); j++)
   	  		  {
-    	  	  ((BaseElement)elementArray.get(j)).setSelect(false);
+     			  ((BaseElement)elementArray.get(j)).setSelect(false);
     	  	  }
      		  for (int i = elementArray.size() - 1; i >= 0; i--)
     	  	  {
@@ -201,21 +217,33 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	{
     		if (state == 1)
     		{
-    			for (int i = elementArray.size() - 1; i >= 0; i--)
+    			if (tempElement != null)
     			{
-    				  if (x1 <= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-    				  {
-    					  if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 >= ((BaseElement)elementArray.get(i)).getRightX() )
-    					  {
-    						  if (y1 <= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-    						  {
-    							  if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 >= ((BaseElement)elementArray.get(i)).getRightY() )
-    							  {
-    								  ((BaseElement)elementArray.get(i)).setSelect(true);	
-    							  }	 
-    						  }  
-    					  }
-    				  }
+    				int leftX = tempElement.getLeftX();
+    				int leftY = tempElement.getLeftY();
+    				tempElement.setObjMove(leftX + x2 - x1,  leftY + y2 - y1);
+    				tempElement = null;
+    			}
+    			else
+    			{
+    				
+    	    			for (int i = elementArray.size() - 1; i >= 0; i--)
+    	    			{
+    	    				  if (x1 <= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+    	    				  {
+    	    					  if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 >= ((BaseElement)elementArray.get(i)).getRightX() )
+    	    					  {
+    	    						  if (y1 <= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+    	    						  {
+    	    							  if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 >= ((BaseElement)elementArray.get(i)).getRightY() )
+    	    							  {
+    	    								  ((BaseElement)elementArray.get(i)).setSelect(true);	
+    	    							  }	 
+    	    						  }  
+    	    					  }
+    	    				  }
+    	    			}
+    	    		
     			}
     		}
     		if (state == 2 || state == 3 || state == 4)
@@ -241,6 +269,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
 								  {
 									  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
 								  }
+								  tempElement = null;
 	  	  		  					break;
 	  	  		  			}  
 	  	  		  		}
@@ -250,8 +279,9 @@ public class UMLMainWindow extends JFrame implements ActionListener
   	  	    }
     	}
     	Graphics g=getGraphics();
-		  paint(g);
+	    paint(g);
     }
+    
     
 	public LocEnum DecidePosition(BaseElement element,int inputX, int inputY)
 	{
@@ -429,9 +459,10 @@ public class UMLMainWindow extends JFrame implements ActionListener
 				{
 					((BaseElement) elementArray.get(i)).setName(name);
 				}
-
 			}
 		}
+		Graphics g=getGraphics();
+		paint(g);
 	}
 	
 	@Override

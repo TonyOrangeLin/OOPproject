@@ -11,10 +11,20 @@ public class ClassElement extends BaseElement{
 	
 	  this.setLeftX(startX);
 	  this.setLeftY(startY);
-	  this.setHeight(60);
-	  this.setWidth(40);
+	  this.setHeight(80);
+	  this.setWidth(60);
 	  rightX = leftX + width;
 	  rightY = leftY + height;
+	}
+	
+	public void setObjMove(int newX, int newY)
+	{
+		  this.setLeftX(newX);
+		  this.setLeftY(newY);
+		  this.setHeight(80);
+		  this.setWidth(60);
+		  rightX = leftX + width;
+		  rightY = leftY + height;
 	}
 	
 	public void draw(Graphics input)
@@ -26,7 +36,7 @@ public class ClassElement extends BaseElement{
 		{
 			super.drawconnectionpoint(input);
 		}
-		input.drawString(name, leftX, leftY + 20);
+		input.drawString(name , leftX + 10, leftY + 20);
 	}
 	
 	

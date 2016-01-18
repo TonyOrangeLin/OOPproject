@@ -39,8 +39,6 @@ public class Setstringwindow extends JFrame implements ActionListener{
 		cancelButton.addActionListener(this);
 		cancelButton.setBounds(160, 67, 87, 23);
 		getContentPane().add(cancelButton);
-		
-
 	}
 	
 	public void StartChangeText()

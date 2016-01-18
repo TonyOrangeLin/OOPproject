@@ -15,7 +15,7 @@ public class BaseElement {
 	protected boolean isSelect;
 	public BaseElement()
 	{
-		setName("no name");
+		setName("");
 	}
 	
 	public void draw(Graphics input)
@@ -29,6 +29,16 @@ public class BaseElement {
 		input.drawRect(  rightX, (leftY + rightY) / 2, 3, 3);//right
 		input.drawRect( (leftX +  rightX)/2, rightY, 3, 3);//down
 		input.drawRect( leftX, (leftY + rightY) / 2, 3, 3);//left
+	}
+	
+	public void setObjMove(int newX, int newY)
+	{
+		  this.setLeftX(newX);
+		  this.setLeftY(newY);
+		  this.setHeight(80);
+		  this.setWidth(60);
+		  rightX = leftX + width;
+		  rightY = leftY + height;
 	}
 
 	public int getLeftX() {

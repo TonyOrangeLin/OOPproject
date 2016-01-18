@@ -12,11 +12,12 @@ public class GroupElement extends BaseElement{
 	{
 	  this.setLeftX(startX);
 	  this.setLeftY(startY);
-	  this.setHeight(40);
-	  this.setWidth(60);
+	  this.setHeight(endY - startY);
+	  this.setWidth(endX - startX);
 	  rightX = endX;
 	  rightY = endY;
 	}
+	
 	
 	public void Add(BaseElement element)
 	{
