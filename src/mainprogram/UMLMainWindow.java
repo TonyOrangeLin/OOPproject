@@ -128,84 +128,93 @@ public class UMLMainWindow extends JFrame implements ActionListener
     
     int x1;
     int y1;
-    
+    int x2;
+    int y2;
     private void jPanel2MousePressed(MouseEvent evt) {
   	  x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
   	  y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
-  	  if (state == 1)
-  	  {
-//  		  selectCount = 0;
-//  		  for (int j = 0; j < elementArray.size(); j++)
-//  		  {
-//  			  ((BaseElement)elementArray.get(j)).setSelect(false);
-//  		  }
-//  		  for (int i = elementArray.size() - 1; i >= 0; i--)
-//  		  {
-//  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-//  			  {
-//  				  
-//  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-//  				  {
-//  					  ((BaseElement)elementArray.get(i)).setSelect(true);
-//  					  selectCount++;
-//  					  startIndex = i;
-//  					  objectmovePressed = true;
-//  					  Graphics g=getGraphics();
-//  					  paint(g);
-//  					  break;
-//  				  }  
-//  			  }
-//  		  }
-//  		  if ( selectCount == 0)
-//  		  {
-//  			  isPressed = true;
-//  		  }
-  	  }
-  	  if (state == 2 || state == 3 || state == 4)
-  	  {
-//  		  for (int i = elementArray.size() - 1; i >= 0; i--)
-//  		  {
-//  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-//  			  {
-//  				  
-//  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-//  				  {
-//  					  //((BaseElement)elementArray.get(i)).setSelect(true);
-//  					  //selectCount++;
-//  					  //Graphics g=getGraphics();
-//  					  //paint(g);
-//  					  //startposition = 0;
-//  					  startposition = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
-//  					  drawLinePressed = true;
-//  					  startIndex = i;
-//  					  break;
-//  				  }  
-//  			  }
-//  		  }
-    
-  	  }
-  	  if (state == 5)
-  	  {
-  		  elementArray.add(new ClassElement(x1, y1, elementArray.size()+1));  
-  		  Graphics g=getGraphics();
-  		  paint(g);
-  	  }
-  	  if (state == 6)
-  	  {
-  		  elementArray.add(new UseClassElement(x1, y1, elementArray.size()+1));  
-  		  Graphics g=getGraphics();
-  		  paint(g);
-  	  }
+
     }
 
 
     //mouse released//
     private void jPanel2MouseReleased(MouseEvent evt) {
-//        if (tool == 2) {
-//            currentX = evt.getX();
-//            currentY = evt.getY();
-//            System.out.println("line!!!! from" + oldX + "to" + currentX);
-//        }
+    	x2 = evt.getX();
+    	y2 = evt.getY();
+    	if (x1 == x2 && y1 == y2)
+    	{
+    		//not drag
+    	  	  if (state == 1)
+    	  	  {
+    	  		  //selectCount = 0;
+    	  		  for (int j = 0; j < elementArray.size(); j++)
+    	  		  {
+    	  		  	  ((BaseElement)elementArray.get(j)).setSelect(false);
+    	  		  }
+    	  		  for (int i = elementArray.size() - 1; i >= 0; i--)
+    	  		  {
+    	  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+    	  			  {
+    	  				  
+    	  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+    	  				  {
+    	  					  ((BaseElement)elementArray.get(i)).setSelect(true);
+    	  					  //selectCount++;
+    	  					  //startIndex = i;
+    	  					  //objectmovePressed = true;
+    	  					  Graphics g=getGraphics();
+    	  					  paint(g);
+    	  					  break;
+    	  				  }  
+    	  			  }
+    	  		  }
+//    	  		  if ( selectCount == 0)
+//    	  		  {
+//    	  			  isPressed = true;
+//    	  		  }
+    	  		  Graphics g=getGraphics();
+    	  		  paint(g);
+    	  	  }
+    	  	  if (state == 2 || state == 3 || state == 4)
+    	  	  {
+//    	  		  for (int i = elementArray.size() - 1; i >= 0; i--)
+//    	  		  {
+//    	  			  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+//    	  			  {
+//    	  				  
+//    	  				  if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
+//    	  				  {
+//    	  					  //((BaseElement)elementArray.get(i)).setSelect(true);
+//    	  					  //selectCount++;
+//    	  					  //Graphics g=getGraphics();
+//    	  					  //paint(g);
+//    	  					  //startposition = 0;
+//    	  					  startposition = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
+//    	  					  drawLinePressed = true;
+//    	  					  startIndex = i;
+//    	  					  break;
+//    	  				  }  
+//    	  			  }
+//    	  		  }
+    	    
+    	  	  }
+    	  	  if (state == 5)
+    	  	  {
+    	  		  elementArray.add(new ClassElement(x1, y1, elementArray.size()+1));  
+    	  		  Graphics g=getGraphics();
+    	  		  paint(g);
+    	  	  }
+    	  	  if (state == 6)
+    	  	  {
+    	  		  elementArray.add(new UseClassElement(x1, y1, elementArray.size()+1));  
+    	  		  Graphics g=getGraphics();
+    	  		  paint(g);
+    	  	  }
+    	}
+    	else//drag
+    	{
+    		
+    	}
     }
     
     class PanelCustom extends JPanel {
@@ -218,17 +227,18 @@ public class UMLMainWindow extends JFrame implements ActionListener
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            for (int i = 0; i < elementArray.size(); i++)
+            for (int i = elementArray.size() - 1; i >= 0; i--)
             {
             	((BaseElement) elementArray.get(i)).draw(g);
             }
-            for (int j = 0; j < lineArray.size(); j++)
+            for (int j = lineArray.size() - 1; j >= 0; j--)
             {
             	((LineBase) lineArray.get(j)).draw(g);
             }
             
         }
     }
+    
 	public void UpdateGUI()
 	{
 		selectButton.setBackground(Color.WHITE);
