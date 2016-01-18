@@ -41,5 +41,14 @@ public class GroupElement extends BaseElement{
 			
 		}
 	}
+	
+	public void setSelect(boolean isSelect)
+	{
+		for (int i = 0; i < elementList.size(); i++)
+		{
+			elementList.get(i).setSelect(isSelect);
+		}
+	
+	}
 
 }

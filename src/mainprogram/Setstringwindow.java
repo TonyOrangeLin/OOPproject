@@ -1,20 +1,35 @@
 package mainprogram;
 
-import java.awt.Button;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Label;
-import java.awt.TextField;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-public class Setstringwindow extends Frame implements ActionListener{
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+
+public class Setstringwindow extends JFrame implements ActionListener{
+	private JTextField textField;
 	
 	
 	public Setstringwindow()
 	{
+		getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(148, 48, 96, 21);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(104, 99, 87, 23);
+		getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(224, 99, 87, 23);
+		getContentPane().add(btnNewButton_1);
+
 		
 		
 		
