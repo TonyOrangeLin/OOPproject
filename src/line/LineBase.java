@@ -3,18 +3,18 @@ package line;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import mainprogram.LocEnum;
 import atom.BaseElement;
 
 public class LineBase {
-	protected int destElementIndex;
-	protected int startElementIndex;
 	protected BaseElement startElement;//0=left, 1=up, 2= right , 3= down
 	protected BaseElement endElement;//0=left, 1=up, 2= right , 3= down
-	
-	public LineBase(int start, int end, BaseElement startLoc, BaseElement endLoc)
+	protected LocEnum startLocation;
+	protected LocEnum endLocation;
+	public LineBase(BaseElement start, BaseElement end, LocEnum startLoc, LocEnum endLoc)
 	{
-		destElementIndex = end;
-		startElementIndex = start;
+		startElement = start;
+		endElement = end;
 		startLocation = startLoc;
 		endLocation = endLoc;
 		
