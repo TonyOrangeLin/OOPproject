@@ -17,13 +17,13 @@ public class Generalizationline extends LineBase{
 	{
 		super.draw(input);
 		
-		if (start.getLeftX() > dest.getLeftX())
+		if (startElement.getLeftX() > endElement.getLeftX())
 		{
 			int[] arrayX = {destX, destX + 10, destX + 10, destX};  
 			int[] arrayY = {destY, destY + 10, destY - 10, destY};  
 			input.drawPolyline(arrayX, arrayY, 4);
 		}
-		if (start.getLeftX() < dest.getLeftX())
+		if (startElement.getLeftX() < endElement.getLeftX())
 		{
 			int[] arrayX = {destX, destX - 10, destX - 10, destX};  
 			int[] arrayY = {destY, destY + 10, destY - 10, destY};  

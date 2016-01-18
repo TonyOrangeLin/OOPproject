@@ -11,6 +11,10 @@ public class LineBase {
 	protected BaseElement endElement;//0=left, 1=up, 2= right , 3= down
 	protected LocEnum startLocation;
 	protected LocEnum endLocation;
+	protected int startX = 0;
+	protected int startY = 0;
+	protected int destX = 0;
+	protected int destY = 0;
 	
 	public LineBase(BaseElement start, BaseElement end, LocEnum startLoc, LocEnum endLoc)
 	{
@@ -23,10 +27,10 @@ public class LineBase {
 	
 	public void draw(Graphics input)
 	{
-		int startX = 0;
-		int startY = 0;
-		int destX = 0;
-		int destY = 0;
+		startX = 0;
+		startY = 0;
+		destX = 0;
+		destY = 0;
 		if (startLocation == LocEnum.LEFT)
 		{
 			startX = startElement.getLeftX();
