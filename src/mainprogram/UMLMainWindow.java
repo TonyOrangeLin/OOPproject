@@ -56,7 +56,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		
 		paintPanel = new PanelCustom();
 		paintPanel.setBackground(Color.WHITE);
-		paintPanel.setBounds(200, 36, 395, 369);
+		paintPanel.setSize(1500, 1500);
+		paintPanel.setBounds(150, 36, 500, 469);
 		paintPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
                 jPanel2MousePressed(evt);
@@ -340,7 +341,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
 
     	PanelCustom() {
             // set a preferred size for the custom panel.
-            setPreferredSize(new Dimension(700, 700));
+            setPreferredSize(new Dimension(1000, 1000));
         }
 
         @Override
@@ -436,7 +437,12 @@ public class UMLMainWindow extends JFrame implements ActionListener
 			{
 				if ( (BaseElement)elementArray.get(i) instanceof GroupElement)
 				{
-					System.out.print("true");
+					ArrayList tempList = ((GroupElement) elementArray.get(i)).getelementList();
+					elementArray.remove(i);
+					for (int j = 0; j < tempList.size(); j++)
+					{
+						elementArray.add(tempList.get(j));
+					}
 				}
 			}
 		}

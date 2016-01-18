@@ -52,11 +52,16 @@ public class GroupElement extends BaseElement{
 	
 	public void setSelect(boolean isSelect)
 	{
+		this.isSelect = isSelect;
 		for (int i = 0; i < elementList.size(); i++)
 		{
 			elementList.get(i).setSelect(isSelect);
 		}
+	}
 	
+	public ArrayList<BaseElement> getelementList()
+	{
+		return elementList;
 	}
 
 }
