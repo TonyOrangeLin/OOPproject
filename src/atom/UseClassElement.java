@@ -16,15 +16,6 @@ public class UseClassElement extends BaseElement{
 
 	}
 	
-	public void setObjMove(int newX, int newY)
-	{
-		  this.setLeftX(newX);
-		  this.setLeftY(newY);
-		  this.setHeight(60);
-		  this.setWidth(80);
-		  rightX = leftX + width;
-		  rightY = leftY + height;
-	}
 	
 	public void draw(Graphics input)
 	{

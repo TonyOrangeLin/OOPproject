@@ -142,6 +142,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
     {
     	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
   	  	y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
+  	  	tempElement = null;
   	  	if (state == 1)
   	  	{
 	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
@@ -181,7 +182,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	{
     	  	if (state == 1)
     	  	{
-    	 	  //selectCount = 0;
      		  for (int j = 0; j < elementArray.size(); j++)
   	  		  {
      			  ((BaseElement)elementArray.get(j)).setSelect(false);
@@ -197,21 +197,17 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	  			  }  
     	  		  }
     	  	  }
-    	  	  Graphics g=getGraphics();
-    		  paint(g);
    	  	  }
      	  if (state == 5)
     	  {
     		  elementArray.add(new ClassElement(x1, y1));  
-  	  		  Graphics g=getGraphics();
-    	  	  paint(g);
     	  }
     	  if (state == 6)
      	  {
       		  elementArray.add(new UseClassElement(x1, y1));  
-      		  Graphics g=getGraphics();
-      		  paint(g);
    	  	  }
+    	  Graphics g=getGraphics();
+		  paint(g);
     	}
     	else//drag
     	{
@@ -219,15 +215,12 @@ public class UMLMainWindow extends JFrame implements ActionListener
     		{
     			if (tempElement != null)
     			{
-    				int leftX = tempElement.getLeftX();
-    				int leftY = tempElement.getLeftY();
-    				tempElement.setObjMove(leftX + x2 - x1,  leftY + y2 - y1);
-    				tempElement = null;
+    				tempElement.setObjMove(x2 - x1,  y2 - y1);
+    				
     			}
     			else
     			{
-    				
-    	    			for (int i = elementArray.size() - 1; i >= 0; i--)
+    	    			for (int i = 0; i < elementArray.size(); i++)
     	    			{
     	    				  if (x1 <= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
     	    				  {
@@ -277,6 +270,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
     			}
   	    
   	  	    }
+    		tempElement = null;
     	}
     	Graphics g=getGraphics();
 	    paint(g);
@@ -422,11 +416,16 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		{
 			if (((BaseElement) elementArray.get(i)).isSelect())
 			{
-				group.Add((BaseElement)elementArray.get(i));
-				//elementArray.remove(i);
+				BaseElement element = (BaseElement)elementArray.get(i);
+				elementArray.remove(i);
+				element.setSelect(false);
+				group.Add(element);
+				i--;
 			}
 		}
 		elementArray.add(group);
+		Graphics g=getGraphics();
+		paint(g);
 	}
 	
 	public void UnGroup()
@@ -439,7 +438,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
 				{
 					System.out.print("true");
 				}
-				//elementArray.remove(i);
 			}
 		}
 	}

@@ -10,14 +10,22 @@ public class GroupElement extends BaseElement{
 	
 	public GroupElement(int startX, int startY, int endX, int endY)
 	{
-	  this.setLeftX(startX);
-	  this.setLeftY(startY);
-	  this.setHeight(endY - startY);
-	  this.setWidth(endX - startX);
-	  rightX = endX;
-	  rightY = endY;
+		  this.setLeftX(startX);
+		  this.setLeftY(startY);
+		  this.setHeight(Math.abs(endY - startY));
+		  this.setWidth(Math.abs(endX - startX));
+		  rightX = endX;
+		  rightY = endY;
 	}
 	
+	public void setObjMove(int newX, int newY)
+	{
+		super.setObjMove(newX, newY);
+		for (int i = 0; i < elementList.size(); i++)
+		{
+			elementList.get(i).setObjMove(newX, newY);
+		}
+	}
 	
 	public void Add(BaseElement element)
 	{
@@ -39,7 +47,6 @@ public class GroupElement extends BaseElement{
 		for (int i = 0; i < elementList.size(); i++)
 		{
 			elementList.get(i).draw(input);
-			
 		}
 	}
 	

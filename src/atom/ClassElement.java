@@ -17,15 +17,7 @@ public class ClassElement extends BaseElement{
 	  rightY = leftY + height;
 	}
 	
-	public void setObjMove(int newX, int newY)
-	{
-		  this.setLeftX(newX);
-		  this.setLeftY(newY);
-		  this.setHeight(80);
-		  this.setWidth(60);
-		  rightX = leftX + width;
-		  rightY = leftY + height;
-	}
+
 	
 	public void draw(Graphics input)
 	{

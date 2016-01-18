@@ -33,12 +33,10 @@ public class BaseElement {
 	
 	public void setObjMove(int newX, int newY)
 	{
-		  this.setLeftX(newX);
-		  this.setLeftY(newY);
-		  this.setHeight(80);
-		  this.setWidth(60);
-		  rightX = leftX + width;
-		  rightY = leftY + height;
+		leftX += newX;
+		leftY += newY;
+		rightX += newX;
+		rightY += newY;
 	}
 
 	public int getLeftX() {
