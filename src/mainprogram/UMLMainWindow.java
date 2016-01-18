@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import atom.BaseElement;
 import atom.ClassElement;
+import atom.GroupElement;
 import atom.UseClassElement;
 
 import java.awt.Color;
@@ -38,6 +39,13 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	JButton useButton;
 	private ArrayList elementArray = new ArrayList<BaseElement>();
 	private ArrayList lineArray = new ArrayList<LineBase>();
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+    BaseElement tempElement;
+    LocEnum tempStart;
+    Setstringwindow setStringWindow;
 	public UMLMainWindow() {
 
 		setResizable(false);
@@ -55,11 +63,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
                 jPanel2MouseReleased(evt);
             }
         });
-		paintPanel.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseDragged(MouseEvent evt) {
-                jPanel2MouseDragged(evt);
-            }
-        });
+
 		getContentPane().add(paintPanel);
 		
 		
@@ -102,39 +106,36 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("File");
-		menuBar.add(mnNewMenu);
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("(None)");
 		mntmNewMenuItem_3.setSelected(true);
-		mnNewMenu.add(mntmNewMenuItem_3);
+		fileMenu.add(mntmNewMenuItem_3);
 		
-		JMenu mnNewMenu_1 = new JMenu("Edit");
-		menuBar.add(mnNewMenu_1);
+		JMenu editMenu = new JMenu("Edit");
+		menuBar.add(editMenu);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Group");
-		mnNewMenu_1.add(mntmNewMenuItem_2);
+		JMenuItem groupMenuItem = new JMenuItem("Group");
+		groupMenuItem.addActionListener(this);
+		groupMenuItem.setActionCommand("group");
+		editMenu.add(groupMenuItem);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("UnGroup");
-		mnNewMenu_1.add(mntmNewMenuItem);
+		JMenuItem ungroupMenuItem = new JMenuItem("UnGroup");
+		ungroupMenuItem.setActionCommand("ungroup");
+		ungroupMenuItem.addActionListener(this);
+		editMenu.add(ungroupMenuItem);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Change Object Name");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+		JMenuItem changenameMenuItem = new JMenuItem("Change Object Name");
+		changenameMenuItem.setActionCommand("changename");
+		changenameMenuItem.addActionListener(this);
+		editMenu.add(changenameMenuItem);
 		this.setVisible(true);
 		
 		UpdateGUI();
+		setStringWindow = new Setstringwindow(this);
 	}
 
-    private void jPanel2MouseDragged(MouseEvent evt) {
-
-    }
-    
-    int x1;
-    int y1;
-    int x2;
-    int y2;
-    BaseElement tempElement;
-    LocEnum tempStart;
     private void jPanel2MousePressed(MouseEvent evt) 
     {
     	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
@@ -156,8 +157,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
   	    }
     }
 
-
-    //mouse released//
     private void jPanel2MouseReleased(MouseEvent evt) 
     {
     	x2 = evt.getX();
@@ -187,13 +186,13 @@ public class UMLMainWindow extends JFrame implements ActionListener
    	  	  }
      	  if (state == 5)
     	  {
-    		  elementArray.add(new ClassElement(x1, y1, elementArray.size()+1));  
+    		  elementArray.add(new ClassElement(x1, y1));  
   	  		  Graphics g=getGraphics();
     	  	  paint(g);
     	  }
     	  if (state == 6)
      	  {
-      		  elementArray.add(new UseClassElement(x1, y1, elementArray.size()+1));  
+      		  elementArray.add(new UseClassElement(x1, y1));  
       		  Graphics g=getGraphics();
       		  paint(g);
    	  	  }
@@ -282,8 +281,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
 						return LocEnum.LEFT;
 					}	
 				}
-		
-				
 			}
 		}
 		if (inputX > element.getRightX() - element.getWidth()/3)
@@ -388,6 +385,55 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		
 	}
 	
+	public void Group()
+	{
+		GroupElement group = new GroupElement(x1, y1, x2, y2);
+		for (int i = 0; i < elementArray.size(); i++)
+		{
+			if (((BaseElement) elementArray.get(i)).isSelect())
+			{
+				group.Add((BaseElement)elementArray.get(i));
+				//elementArray.remove(i);
+			}
+		}
+		elementArray.add(group);
+	}
+	
+	public void UnGroup()
+	{
+		for (int i = 0; i < elementArray.size(); i++)
+		{
+			if (((BaseElement) elementArray.get(i)).isSelect())
+			{
+				if ( (BaseElement)elementArray.get(i) instanceof GroupElement)
+				{
+					System.out.print("true");
+				}
+				//elementArray.remove(i);
+			}
+		}
+	}
+	
+	public void ChangeName()
+	{
+		setStringWindow.StartChangeText();
+	}
+	
+	public void SetSelectedObjName(String name)
+	{
+		for (int i = 0; i < elementArray.size(); i++)
+		{
+			if (((BaseElement) elementArray.get(i)).isSelect())
+			{
+				if (!( (BaseElement)elementArray.get(i) instanceof GroupElement))
+				{
+					((BaseElement) elementArray.get(i)).setName(name);
+				}
+
+			}
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -414,6 +460,18 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		if ("use".equals(e.getActionCommand()))
 		{
 			state = 6;
+		}
+		if ("group".equals(e.getActionCommand()))
+		{
+			Group();
+		}
+		if ("ungroup".equals(e.getActionCommand()))
+		{
+			UnGroup();
+		}
+		if ("changename".equals(e.getActionCommand()))
+		{
+			ChangeName();
 		}
 		UpdateGUI();
 	}
