@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 public class ClassElement extends BaseElement{
 
 	
-	public ClassElement(int startX, int startY,int depth)
+	public ClassElement(int startX, int startY)
 	{
 	
 	  this.setLeftX(startX);
@@ -15,7 +15,6 @@ public class ClassElement extends BaseElement{
 	  this.setWidth(40);
 	  rightX = leftX + width;
 	  rightY = leftY + height;
-	  setDepth(depth);
 	}
 	
 	public void draw(Graphics input)

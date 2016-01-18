@@ -8,15 +8,14 @@ public class GroupElement extends BaseElement{
 
 	private ArrayList<BaseElement> elementList = new ArrayList<BaseElement>();
 	
-	public GroupElement(int startX, int startY, int depth)
+	public GroupElement(int startX, int startY, int endX, int endY)
 	{
 	  this.setLeftX(startX);
 	  this.setLeftY(startY);
 	  this.setHeight(40);
 	  this.setWidth(60);
-	  rightX = leftX + width;
-	  rightY = leftY + height;
-	  setDepth(depth);
+	  rightX = endX;
+	  rightY = endY;
 	}
 	
 	public void Add(BaseElement element)
