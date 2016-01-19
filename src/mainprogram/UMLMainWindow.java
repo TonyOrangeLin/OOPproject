@@ -444,6 +444,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
 						elementArray.add(tempList.get(j));
 					}
 				}
+				break;
 			}
 		}
 	}
