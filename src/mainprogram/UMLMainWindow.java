@@ -167,7 +167,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	  	  			if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
 	  	  			{
 	  	  				tempElement = (BaseElement) elementArray.get(i);
-	  	  				tempStart = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
+	  	  				tempStart = CreateLine(((BaseElement)elementArray.get(i)), x1 , y1);
+	  	  				//tempStart = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
 	  	  				break;
 	  	  			}  
 	  	  		}
@@ -250,7 +251,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	  	  		  		{ 				  
 	  	  		  			if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 <= ((BaseElement)elementArray.get(i)).getRightY() )
 	  	  		  			{
-	  	  		  				  LocEnum tempEnd = DecidePosition(((BaseElement)elementArray.get(i)), x2 , y2);
+	  	  		  					LocEnum tempEnd =CreateLine(((BaseElement)elementArray.get(i)), x2 , y2);
+	  	  		  				  //LocEnum tempEnd = DecidePosition(((BaseElement)elementArray.get(i)), x2 , y2);
 	  	  		  				  if (state == 2)
 	  	  		  			 	  {
 									  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
@@ -277,6 +279,28 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	    paint(g);
     }
     
+    public LocEnum CreateLine(BaseElement element, int X, int Y)
+    {
+    	double ans1 = (X - element.getLeftX()) * (element.getRightY() - element.getLeftY()) - ( Y - element.getLeftY()) * (element.getRightX() - element.getLeftX());
+    	double ans2 = (X - element.getLeftX()) * ( element.getLeftY() - element.getRightY()) - ( Y - element.getRightY()) * (element.getRightX() - element.getLeftX());
+    	if ( ans1 >= 0 && ans2 >= 0)
+    	{
+    		return LocEnum.UP;
+    	}
+    	if ( ans1 < 0 && ans2 < 0)
+    	{
+    		return LocEnum.DOWN;
+    	}
+    	if ( ans1 >= 0 && ans2 < 0)
+    	{
+    		return LocEnum.RIGHT;
+    	}
+    	if ( ans1 < 0 && ans2 >= 0)
+    	{
+    		return LocEnum.LEFT;
+    	}
+    	return LocEnum.DOWN;
+    }
     
 	public LocEnum DecidePosition(BaseElement element,int inputX, int inputY)
 	{
@@ -291,8 +315,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
 						return LocEnum.UP;
 					}	
 				}
-		
-				
 			}
 		}
 		if (inputX < element.getLeftX()+ element.getWidth()/3)
