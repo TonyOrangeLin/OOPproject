@@ -59,12 +59,13 @@ public class UMLModel implements Subject{
     	this.y1 = y1;
     	if (state == StateEnum.SELECT || state == StateEnum.ASSOCIATION || state == StateEnum.COMPOSITION || state == StateEnum.GENERALIZATION)
   	    {
+    		
 	    	for (int i = elementArray.size() - 1; i >= 0; i--)
 	  	  	{
 	  	  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x1, y1))
 	  	  		{
 	  	  			tempElement = (BaseElement) elementArray.get(i);
-	  	  			if (state == StateEnum.SELECT)
+	  	  			if (state == StateEnum.ASSOCIATION || state == StateEnum.COMPOSITION || state == StateEnum.GENERALIZATION)
 	  	  	  		{
 	  	  				tempStart = tempElement.CheckLinePosition(x1 , y1);
 	  	  	  		}
@@ -82,10 +83,10 @@ public class UMLModel implements Subject{
     	{
     	  	if (state == StateEnum.SELECT)
     	  	{
-     		  for (int j = 0; j < elementArray.size(); j++)
-  	  		  {
-     			  ((BaseElement)elementArray.get(j)).setSelect(false);
-    	  	  }
+    	  		for (int j = 0; j < elementArray.size(); j++)
+        		{
+       			  ((BaseElement)elementArray.get(j)).setSelect(false);
+      	  	    }
      		  for (int i = elementArray.size() - 1; i >= 0; i--)
     	  	  {
     	  		  if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
@@ -132,7 +133,7 @@ public class UMLModel implements Subject{
 	  	  		  	{
 	  	  		  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
 	  	  		  		{
-	  	  		  			LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
+	  	  		  			  LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
 	  	  		  			  if (state == StateEnum.ASSOCIATION)
 	  	  		  		 	  {
 								  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
@@ -145,15 +146,15 @@ public class UMLModel implements Subject{
 							  {
 								  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
 							  }
-							  tempElement = null;
 							  break;
 	  	  		  		}
 	  	  		  	}
     			}
   	    
   	  	    }
-    		tempElement = null;
+    		
     	}
+    	tempElement = null;
     }
     
 	public void Group()
@@ -195,13 +196,25 @@ public class UMLModel implements Subject{
 	
 	public void SetSelectedObjName(String name)
 	{
+		int totalCount = 0;
 		for (int i = 0; i < elementArray.size(); i++)
 		{
-			if (((BaseElement) elementArray.get(i)).isSelect())
+			if ( ((BaseElement) elementArray.get(i)).isSelect() )
 			{
-				if (!( (BaseElement)elementArray.get(i) instanceof GroupElement))
+				totalCount++;
+			}
+			
+		}
+		if (totalCount == 1)
+		{
+			for (int i = 0; i < elementArray.size(); i++)
+			{
+				if (((BaseElement) elementArray.get(i)).isSelect())
 				{
-					((BaseElement) elementArray.get(i)).setName(name);
+					if (!( (BaseElement)elementArray.get(i) instanceof GroupElement))
+					{
+						((BaseElement) elementArray.get(i)).setName(name);
+					}
 				}
 			}
 		}

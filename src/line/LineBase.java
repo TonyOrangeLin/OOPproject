@@ -65,8 +65,8 @@ public class LineBase {
 		}
 		if (endLocation == LocEnum.RIGHT)
 		{
-			destX = (endElement.getLeftX() + endElement.getRightX()) / 2 ;
-			destY = endElement.getRightY();
+			destX = endElement.getRightX() ;
+			destY =  (endElement.getLeftY() + endElement.getRightY() ) / 2;
 		}
 		if (endLocation == LocEnum.DOWN)
 		{
