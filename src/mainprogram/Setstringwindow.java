@@ -15,9 +15,9 @@ public class Setstringwindow extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-	UMLMainWindow w;
+	UMLController w;
 	
-	public Setstringwindow(UMLMainWindow window)
+	public Setstringwindow(UMLController window)
 	{
 		setType(Type.POPUP);
 		setSize(300, 200);

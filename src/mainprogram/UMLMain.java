@@ -2,10 +2,12 @@ package mainprogram;
 
 public class UMLMain {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		@SuppressWarnings("unused")
-		UMLMainWindow window = new UMLMainWindow();
+
+		UMLModel model = new UMLModel();
+		UMLController controller = new UMLController(model);
 	}
 
 }

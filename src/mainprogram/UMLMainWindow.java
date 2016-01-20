@@ -28,29 +28,23 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	 * 
 	 */
 	private static final long serialVersionUID = -2152837231537831802L;
+	
 	private JPanel paintPanel;
-	boolean isPressed = false;
-	boolean drawLinePressed = false;
-	boolean objectmovePressed = false;
-	private int state = 0;
+	
+	UMLModel uModel;
+	UMLController uController;
+	
 	JButton selectButton;
 	JButton associationButton;
 	JButton generalizationButton;
 	JButton compositionButton;
 	JButton classButton;
 	JButton useButton;
-	private ArrayList<BaseElement> elementArray = new ArrayList<BaseElement>();
-	private ArrayList<LineBase> lineArray = new ArrayList<LineBase>();
-    int x1;
-    int y1;
-    int x2;
-    int y2;
-    BaseElement tempElement;
-    LocEnum tempStart;
-    Setstringwindow setStringWindow;
     
-	public UMLMainWindow() {
-
+	public UMLMainWindow(UMLModel model, UMLController controller) {
+		uModel = model;
+		uController = controller;
+		
 		setResizable(false);
 		this.setSize(700, 700);
 		getContentPane().setLayout(null);
@@ -136,175 +130,29 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		editMenu.add(changenameMenuItem);
 		this.setVisible(true);
 		
-		UpdateGUI();
-		setStringWindow = new Setstringwindow(this);
+		
 	}
 
     private void jPanel2MousePressed(MouseEvent evt) 
     {
-    	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
-  	  	y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
-  	  	tempElement = null;
-  	  	if (state == 1 || state == 2 || state == 3 || state == 4)
-  	    {
-	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
-	  	  	{
-	  	  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x1, y1))
-	  	  		{
-	  	  			tempElement = (BaseElement) elementArray.get(i);
-	  	  			if (state == 1)
-	  	  	  		{
-	  	  				tempStart = tempElement.CheckLinePosition(x1 , y1);
-	  	  	  		}
-	  				break;
-	  	  		}
-	  	  	}
-  	    }
+    	int x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
+  	  	int y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
+  	  	uController.MousePressed(x1, y1);
     }
 
     private void jPanel2MouseReleased(MouseEvent evt) 
     {
-    	x2 = evt.getX();
-    	y2 = evt.getY();
-    	if (x1 == x2 && y1 == y2)//not drag
-    	{
-    	  	if (state == 1)
-    	  	{
-     		  for (int j = 0; j < elementArray.size(); j++)
-  	  		  {
-     			  ((BaseElement)elementArray.get(j)).setSelect(false);
-    	  	  }
-     		  for (int i = elementArray.size() - 1; i >= 0; i--)
-    	  	  {
-    	  		  if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
-    	  		  {
-    	  			  ((BaseElement)elementArray.get(i)).setSelect(true);
-    				  break;
-    	  		  }
-    	  	  }
-   	  	  }
-     	  if (state == 5)
-    	  {
-    		  elementArray.add(new ClassElement(x1, y1));  
-    	  }
-    	  if (state == 6)
-     	  {
-      		  elementArray.add(new UseClassElement(x1, y1));  
-   	  	  }
-    	  Graphics g=getGraphics();
-		  paint(g);
-    	}
-    	else//drag
-    	{
-    		if (state == 1)
-    		{
-    			if (tempElement != null)
-    			{
-    				tempElement.setObjMove(x2 - x1,  y2 - y1);
-    			}
-    			else
-    			{
-    				for (int i = 0; i < elementArray.size(); i++)
-    	    		{
-    					if (((BaseElement)elementArray.get(i)).CheckPointBetween(x1, y1, x2, y2))
-    					{
-    						((BaseElement)elementArray.get(i)).setSelect(true);	
-    					}
-    	    		}
-    			}
-    		}
-    		if (state == 2 || state == 3 || state == 4)
-  	  	    {
-    			if (tempElement != null)
-    			{
-	  	  		  	for (int i = elementArray.size() - 1; i >= 0; i--)
-	  	  		  	{
-	  	  		  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
-	  	  		  		{
-	  	  		  			LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
-	  	  		  			  if (state == 2)
-	  	  		  		 	  {
-								  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-							  }
-							  if (state == 3)
-							  {
-								  lineArray.add(new Generalizationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-							  }
-							  if (state == 4)
-							  {
-								  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-							  }
-							  tempElement = null;
-							  break;
-	  	  		  		}
-	  	  		  	}
-    			}
-  	    
-  	  	    }
-    		tempElement = null;
-    	}
+    	int x2 = evt.getX();
+    	int y2 = evt.getY();
+    	uController.MouseRelease(x2, y2);
+    	Update();
+    }
+    
+    public void Update()
+    {
     	Graphics g=getGraphics();
 	    paint(g);
     }
-    
-    
-    
-	public LocEnum DecidePosition(BaseElement element,int inputX, int inputY)
-	{
-		if (inputX > element.getLeftX()+ element.getWidth()/3)
-		{
-			if (inputX < element.getRightX()- element.getWidth()/3)
-			{
-				if (inputY > element.getLeftY())
-				{
-					if (inputY < element.getLeftY() + element.getHeight()/2)
-					{
-						return LocEnum.UP;
-					}	
-				}
-			}
-		}
-		if (inputX < element.getLeftX()+ element.getWidth()/3)
-		{
-			if (inputX > element.getLeftX())
-			{
-				if (inputY > element.getLeftY())
-				{
-					if (inputY < element.getRightY())
-					{
-						return LocEnum.LEFT;
-					}	
-				}
-			}
-		}
-		if (inputX > element.getRightX() - element.getWidth()/3)
-		{
-			if (inputX < element.getRightX())
-			{
-				if (inputY > element.getLeftY())
-				{
-					if (inputY < element.getRightY())
-					{
-						return LocEnum.RIGHT;
-					}	
-				}				
-			}
-		}
-		if (inputX > element.getLeftX()+ element.getWidth()/3)
-		{
-			if (inputX < element.getRightX()- element.getWidth()/3)
-			{
-				if (inputY > element.getLeftY() + element.getHeight()/2)
-				{
-					if (inputY < element.getRightY())
-					{
-						return LocEnum.DOWN;
-					}	
-				}	
-			}
-		}
-		return LocEnum.DOWN;
-	}
     
     class PanelCustom extends JPanel {
 
@@ -321,19 +169,12 @@ public class UMLMainWindow extends JFrame implements ActionListener
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            for (int i = elementArray.size() - 1; i >= 0; i--)
-            {
-            	((BaseElement) elementArray.get(i)).draw(g);
-            }
-            for (int j = lineArray.size() - 1; j >= 0; j--)
-            {
-            	((LineBase) lineArray.get(j)).draw(g);
-            }
+            uController.Draw(g);
             
         }
     }
     
-	public void UpdateGUI()
+	public void UpdateGUI(StateEnum state)
 	{
 		selectButton.setBackground(Color.WHITE);
 		selectButton.setForeground(Color.BLACK);
@@ -347,143 +188,44 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	    classButton.setForeground(Color.BLACK);
 		useButton.setBackground(Color.WHITE);
 		useButton.setForeground(Color.BLACK);
-		if (state == 0)
-		{
-			
-		}
-		if (state == 1)
+		if (state == StateEnum.SELECT)
 		{
 			selectButton.setBackground(Color.BLACK);
 			selectButton.setForeground(Color.WHITE);
 		}
-		if (state == 2)
+		else if (state == StateEnum.ASSOCIATION)
 		{
 			associationButton.setBackground(Color.BLACK);
 			associationButton.setForeground(Color.WHITE);
 		}
-		if (state == 3)
+		else if (state == StateEnum.GENERALIZATION)
 		{
 			generalizationButton.setBackground(Color.BLACK);
 			generalizationButton.setForeground(Color.WHITE);
 		}
-		if (state == 4)
+		else if (state == StateEnum.COMPOSITION)
 		{
 			compositionButton.setBackground(Color.BLACK);
 			compositionButton.setForeground(Color.WHITE);
 		}
-		if (state == 5)
+		else if (state == StateEnum.CLASS)
 		{
 			classButton.setBackground(Color.BLACK);
 			classButton.setForeground(Color.WHITE);
 		}
-		if (state == 6)
+		else if (state == StateEnum.USECLASS)
 		{
 			useButton.setBackground(Color.BLACK);
 			useButton.setForeground(Color.WHITE);
 		}
-		
 	}
-	
-	public void Group()
-	{
-		GroupElement group = new GroupElement(x1, y1, x2, y2);
-		for (int i = 0; i < elementArray.size(); i++)
-		{
-			if (((BaseElement) elementArray.get(i)).isSelect())
-			{
-				BaseElement element = (BaseElement)elementArray.get(i);
-				elementArray.remove(i);
-				element.setSelect(false);
-				group.Add(element);
-				i--;
-			}
-		}
-		elementArray.add(group);
-		Graphics g=getGraphics();
-		paint(g);
-	}
-	
-	public void UnGroup()
-	{
-		for (int i = 0; i < elementArray.size(); i++)
-		{
-			if (((BaseElement) elementArray.get(i)).isSelect())
-			{
-				if ( (BaseElement)elementArray.get(i) instanceof GroupElement)
-				{
-					ArrayList<BaseElement> tempList = ((GroupElement) elementArray.get(i)).getelementList();
-					elementArray.remove(i);
-					for (int j = 0; j < tempList.size(); j++)
-					{
-						elementArray.add((BaseElement) tempList.get(j));
-					}
-				}
-				break;
-			}
-		}
-	}
-	
-	public void ChangeName()
-	{
-		setStringWindow.StartChangeText();
-	}
-	
-	public void SetSelectedObjName(String name)
-	{
-		for (int i = 0; i < elementArray.size(); i++)
-		{
-			if (((BaseElement) elementArray.get(i)).isSelect())
-			{
-				if (!( (BaseElement)elementArray.get(i) instanceof GroupElement))
-				{
-					((BaseElement) elementArray.get(i)).setName(name);
-				}
-			}
-		}
-		Graphics g=getGraphics();
-		paint(g);
-	}
-	
+			
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if ("select".equals(e.getActionCommand()))
-		{
-			state = 1;
-		}
-		if ("association".equals(e.getActionCommand()))
-		{
-			state = 2;
-		}
-		if ("generalization".equals(e.getActionCommand()))
-		{
-			state = 3;
-		}
-		if ("composition".equals(e.getActionCommand()))
-		{
-			state = 4;
-		}
-		if ("class".equals(e.getActionCommand()))
-		{
-			state = 5;
-		}
-		if ("use".equals(e.getActionCommand()))
-		{
-			state = 6;
-		}
-		if ("group".equals(e.getActionCommand()))
-		{
-			Group();
-		}
-		if ("ungroup".equals(e.getActionCommand()))
-		{
-			UnGroup();
-		}
-		if ("changename".equals(e.getActionCommand()))
-		{
-			ChangeName();
-		}
-		UpdateGUI();
+		String actionName = e.getActionCommand();
+		uController.KeyPressed(actionName);
+		
 	}
 
 	
