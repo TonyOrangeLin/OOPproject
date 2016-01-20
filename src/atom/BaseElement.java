@@ -63,6 +63,17 @@ public class BaseElement {
     	return LocEnum.DOWN;
     }
 
+	public boolean CheckPointInElement(int X, int Y)
+	{
+		if (X >= getLeftX() && X <= getRightX() )
+		{
+	  		if (Y >= getLeftY() && Y <= getRightY() )
+	  		{
+	  			return true;
+	  		}  
+	  	}
+		return false;
+	}
 	public int getLeftX() {
 		return leftX;
 	}

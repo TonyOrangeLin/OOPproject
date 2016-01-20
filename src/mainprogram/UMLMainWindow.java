@@ -145,33 +145,18 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	x1=evt.getX();//取得滑鼠按下時的X座標(繪圖起始點X座標)
   	  	y1=evt.getY();//取得滑鼠按下時的Y座標(繪圖起始點Y座標)
   	  	tempElement = null;
-  	  	if (state == 1)
-  	  	{
-	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
-	  	  	{
-	  	  		if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-	  	  		{
-	  	  			if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-	  	  			{
-	  	  				tempElement = (BaseElement) elementArray.get(i);
-	  	  				break;
-	  	  			}  
-	  	  		}
-	  	  	}
-  	  	}
-  	  	if (state == 2 || state == 3 || state == 4)
+  	  	if (state == 1 || state == 2 || state == 3 || state == 4)
   	    {
 	  	  	for (int i = elementArray.size() - 1; i >= 0; i--)
 	  	  	{
-	  	  		if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
+	  	  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x1, y1))
 	  	  		{
-	  	  			if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-	  	  			{
-	  	  				tempElement = (BaseElement) elementArray.get(i);
+	  	  			tempElement = (BaseElement) elementArray.get(i);
+	  	  			if (state == 1)
+	  	  	  		{
 	  	  				tempStart = tempElement.CheckLinePosition(x1 , y1);
-	  	  				//tempStart = DecidePosition(((BaseElement)elementArray.get(i)), x1 , y1);
-	  	  				break;
-	  	  			}  
+	  	  	  		}
+	  				break;
 	  	  		}
 	  	  	}
   	    }
@@ -191,13 +176,10 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	  	  }
      		  for (int i = elementArray.size() - 1; i >= 0; i--)
     	  	  {
-    	  		  if (x1 >= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-    			  {
-    	  			 if (y1 >= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-    	  			 {
-    	  				  ((BaseElement)elementArray.get(i)).setSelect(true);
-    					  break;
-    	  			  }  
+    	  		  if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
+    	  		  {
+    	  			  ((BaseElement)elementArray.get(i)).setSelect(true);
+    				  break;
     	  		  }
     	  	  }
    	  	  }
@@ -219,7 +201,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
     			if (tempElement != null)
     			{
     				tempElement.setObjMove(x2 - x1,  y2 - y1);
-    				
     			}
     			else
     			{
@@ -248,10 +229,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
     			{
 	  	  		  	for (int i = elementArray.size() - 1; i >= 0; i--)
 	  	  		  	{
-	  	  		  		if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 <= ((BaseElement)elementArray.get(i)).getRightX() )
-	  	  		  		{ 				  
-	  	  		  			if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 <= ((BaseElement)elementArray.get(i)).getRightY() )
-	  	  		  			{
+	  	  		  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
+	  	  		  		{
 	  	  		  					LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
 	  	  		  				  //LocEnum tempEnd = DecidePosition(((BaseElement)elementArray.get(i)), x2 , y2);
 	  	  		  				  if (state == 2)
@@ -268,7 +247,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
 								  }
 								  tempElement = null;
 	  	  		  					break;
-	  	  		  			}  
 	  	  		  		}
 	  	  		  	}
     			}
