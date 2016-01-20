@@ -13,7 +13,7 @@ public class UMLController {
 	public UMLController(UMLModel model)
 	{
 		uModel = model;
-		uView = new UMLMainWindow(model, this);
+		uView = new UMLMainWindow(this);
 		sView = new Setstringwindow(this);
 	}
 	

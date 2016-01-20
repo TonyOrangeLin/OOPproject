@@ -18,7 +18,6 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	
 	private JPanel paintPanel;
 	
-	UMLModel uModel;
 	UMLController uController;
 	
 	JButton selectButton;
@@ -28,8 +27,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	JButton classButton;
 	JButton useButton;
     
-	public UMLMainWindow(UMLModel model, UMLController controller) {
-		uModel = model;
+	public UMLMainWindow(UMLController controller) {
 		uController = controller;
 		
 		setResizable(false);
