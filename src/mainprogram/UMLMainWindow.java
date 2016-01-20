@@ -14,9 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import line.Associationline;
@@ -27,6 +24,10 @@ import line.LineBase;
 
 public class UMLMainWindow extends JFrame implements ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2152837231537831802L;
 	private JPanel paintPanel;
 	boolean isPressed = false;
 	boolean drawLinePressed = false;
@@ -38,8 +39,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	JButton compositionButton;
 	JButton classButton;
 	JButton useButton;
-	private ArrayList elementArray = new ArrayList<BaseElement>();
-	private ArrayList lineArray = new ArrayList<LineBase>();
+	private ArrayList<BaseElement> elementArray = new ArrayList<BaseElement>();
+	private ArrayList<LineBase> lineArray = new ArrayList<LineBase>();
     int x1;
     int y1;
     int x2;
@@ -361,7 +362,12 @@ public class UMLMainWindow extends JFrame implements ActionListener
     
     class PanelCustom extends JPanel {
 
-    	PanelCustom() {
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		PanelCustom() {
             // set a preferred size for the custom panel.
             setPreferredSize(new Dimension(1000, 1000));
         }
@@ -459,11 +465,11 @@ public class UMLMainWindow extends JFrame implements ActionListener
 			{
 				if ( (BaseElement)elementArray.get(i) instanceof GroupElement)
 				{
-					ArrayList tempList = ((GroupElement) elementArray.get(i)).getelementList();
+					ArrayList<BaseElement> tempList = ((GroupElement) elementArray.get(i)).getelementList();
 					elementArray.remove(i);
 					for (int j = 0; j < tempList.size(); j++)
 					{
-						elementArray.add(tempList.get(j));
+						elementArray.add((BaseElement) tempList.get(j));
 					}
 				}
 				break;

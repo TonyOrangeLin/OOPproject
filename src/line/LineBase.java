@@ -1,7 +1,7 @@
 package line;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+
 
 import mainprogram.LocEnum;
 import atom.BaseElement;

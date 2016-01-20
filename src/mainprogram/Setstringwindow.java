@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.Window.Type;
-
 
 public class Setstringwindow extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	UMLMainWindow w;
 	
