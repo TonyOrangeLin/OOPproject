@@ -2,6 +2,8 @@ package atom;
 
 import java.awt.Graphics;
 
+import mainprogram.LocEnum;
+
 public class BaseElement {
 	protected int leftX;
 	protected int leftY;
@@ -37,6 +39,29 @@ public class BaseElement {
 		rightX += newX;
 		rightY += newY;
 	}
+	
+	public LocEnum CheckLinePosition(int X, int Y)
+    {
+    	double ans1 = (X - leftX) * (rightY - leftY) - ( Y - leftY) * (rightX - leftX);
+    	double ans2 = (X - leftX) * (leftY - rightY) - ( Y - rightY) * (rightX - leftX);
+    	if ( ans1 >= 0 && ans2 >= 0)
+    	{
+    		return LocEnum.UP;
+    	}
+    	if ( ans1 < 0 && ans2 < 0)
+    	{
+    		return LocEnum.DOWN;
+    	}
+    	if ( ans1 >= 0 && ans2 < 0)
+    	{
+    		return LocEnum.RIGHT;
+    	}
+    	if ( ans1 < 0 && ans2 >= 0)
+    	{
+    		return LocEnum.LEFT;
+    	}
+    	return LocEnum.DOWN;
+    }
 
 	public int getLeftX() {
 		return leftX;
