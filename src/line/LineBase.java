@@ -3,7 +3,8 @@ package line;
 import java.awt.Graphics;
 
 
-import mainprogram.LocEnum;
+
+import enume.LocEnum;
 import atom.BaseElement;
 
 public class LineBase {

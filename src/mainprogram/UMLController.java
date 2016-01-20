@@ -1,9 +1,6 @@
 package mainprogram;
 
-import java.awt.Graphics;
-import line.LineBase;
-import atom.BaseElement;
-
+import enume.StateEnum;
 
 public class UMLController {
 	UMLMainWindow uView;
@@ -13,7 +10,7 @@ public class UMLController {
 	public UMLController(UMLModel model)
 	{
 		uModel = model;
-		uView = new UMLMainWindow(this);
+		uView = new UMLMainWindow(this, uModel);
 		sView = new Setstringwindow(this);
 	}
 	
@@ -29,18 +26,7 @@ public class UMLController {
     	uView.Update();
 	}
 	
-	public void Draw(Graphics g)
-	{
-	
-		for (int i = uModel.GetElements().size() - 1; i >= 0; i--)
-        {
-        	((BaseElement) uModel.GetElements().get(i)).draw(g);
-        }
-        for (int j = uModel.GetLines().size() - 1; j >= 0; j--)
-        {
-        	((LineBase) uModel.GetLines().get(j)).draw(g);
-        }
-	}
+
 
 	public void SetSelectedObjName(String name)
 	{

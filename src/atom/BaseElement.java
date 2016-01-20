@@ -2,7 +2,7 @@ package atom;
 
 import java.awt.Graphics;
 
-import mainprogram.LocEnum;
+import enume.LocEnum;
 
 public class BaseElement {
 	protected int leftX;

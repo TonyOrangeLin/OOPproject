@@ -1,4 +1,4 @@
-package mainprogram;
+package enume;
 
 public enum StateEnum {
 	NONE, SELECT, ASSOCIATION, GENERALIZATION, COMPOSITION, CLASS, USECLASS

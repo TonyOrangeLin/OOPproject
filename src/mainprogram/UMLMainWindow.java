@@ -1,6 +1,13 @@
 package mainprogram;
 
+
+import interfaces.PaintObserver;
+
 import javax.swing.*;
+
+import atom.BaseElement;
+import enume.StateEnum;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,8 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
-public class UMLMainWindow extends JFrame implements ActionListener
+import line.LineBase;
+
+public class UMLMainWindow extends JFrame implements ActionListener, PaintObserver
 {
 	/**
 	 * 
@@ -19,7 +29,7 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	private JPanel paintPanel;
 	
 	UMLController uController;
-	
+	UMLModel uModel;
 	JButton selectButton;
 	JButton associationButton;
 	JButton generalizationButton;
@@ -27,9 +37,9 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	JButton classButton;
 	JButton useButton;
     
-	public UMLMainWindow(UMLController controller) {
+	public UMLMainWindow(UMLController controller, UMLModel model) {
 		uController = controller;
-		
+		uModel = model;
 		setResizable(false);
 		this.setSize(700, 700);
 		getContentPane().setLayout(null);
@@ -130,15 +140,26 @@ public class UMLMainWindow extends JFrame implements ActionListener
     	int x2 = evt.getX();
     	int y2 = evt.getY();
     	uController.MouseRelease(x2, y2);
-    	Update();
     }
     
     public void Update()
     {
-    	Graphics g=getGraphics();
+    	Graphics g = getGraphics();
 	    paint(g);
     }
     
+	public void Draw(Graphics g, ArrayList<BaseElement> bElements, ArrayList<LineBase> lElements)
+	{
+		for (int i = bElements.size() - 1; i >= 0; i--)
+        {
+        	((BaseElement) bElements.get(i)).draw(g);
+        }
+        for (int j = lElements.size() - 1; j >= 0; j--)
+        {
+        	((LineBase) lElements.get(j)).draw(g);
+        }
+	}
+	
     class PanelCustom extends JPanel {
 
     	/**
@@ -154,7 +175,8 @@ public class UMLMainWindow extends JFrame implements ActionListener
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            uController.Draw(g);
+            Draw(g, uModel.GetElements(), uModel.GetLines());
+            
             
         }
     }
@@ -210,7 +232,12 @@ public class UMLMainWindow extends JFrame implements ActionListener
 		// TODO Auto-generated method stub
 		String actionName = e.getActionCommand();
 		uController.KeyPressed(actionName);
-		
+	}
+
+	@Override
+	public void ObserverUpdate() {
+		// TODO Auto-generated method stub
+		Update();
 	}
 
 	

@@ -1,6 +1,12 @@
 package mainprogram;
 
+import interfaces.PaintObserver;
+import interfaces.Subject;
+
 import java.util.ArrayList;
+
+import enume.LocEnum;
+import enume.StateEnum;
 import line.Associationline;
 import line.Compositionline;
 import line.Generalizationline;
@@ -10,9 +16,10 @@ import atom.ClassElement;
 import atom.GroupElement;
 import atom.UseClassElement;
 
-public class UMLModel {
+public class UMLModel implements Subject{
 	private ArrayList<BaseElement> elementArray = new ArrayList<BaseElement>();
 	private ArrayList<LineBase> lineArray = new ArrayList<LineBase>();
+	private ArrayList<PaintObserver> paintObservers = new ArrayList<PaintObserver>();
     int x1;
     int y1;
     int x2;
@@ -197,6 +204,27 @@ public class UMLModel {
 					((BaseElement) elementArray.get(i)).setName(name);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void RegisterObserver(PaintObserver o) {
+		// TODO Auto-generated method stub
+		paintObservers.add(o);
+	}
+
+	@Override
+	public void RemoveObserver(PaintObserver o) {
+		// TODO Auto-generated method stub
+		paintObservers.remove(o);
+	}
+
+	@Override
+	public void NotifyObservers() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < paintObservers.size(); i++)
+		{
+			paintObservers.get(i).ObserverUpdate();
 		}
 	}
 }
