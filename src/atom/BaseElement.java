@@ -74,6 +74,24 @@ public class BaseElement {
 	  	}
 		return false;
 	}
+	
+	public boolean CheckPointBetween(int X1, int Y1, int X2, int Y2)
+	{
+		if (X1 <= getLeftX() && X1 <= getRightX() )
+		{
+			if (X2 >= getLeftX() && X2 >= getRightX() )
+			{
+				if (Y1 <= getLeftY() && Y1 <= getRightY() )
+				{
+					if (Y2 >= getLeftY() && Y2 >= getRightY() )
+					{
+						return true;
+					}	 
+				}  
+			}
+		}
+		return false;
+	}
 	public int getLeftX() {
 		return leftX;
 	}

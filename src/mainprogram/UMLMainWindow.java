@@ -204,23 +204,13 @@ public class UMLMainWindow extends JFrame implements ActionListener
     			}
     			else
     			{
-    	    			for (int i = 0; i < elementArray.size(); i++)
-    	    			{
-    	    				  if (x1 <= ((BaseElement)elementArray.get(i)).getLeftX() && x1 <= ((BaseElement)elementArray.get(i)).getRightX() )
-    	    				  {
-    	    					  if (x2 >= ((BaseElement)elementArray.get(i)).getLeftX() && x2 >= ((BaseElement)elementArray.get(i)).getRightX() )
-    	    					  {
-    	    						  if (y1 <= ((BaseElement)elementArray.get(i)).getLeftY() && y1 <= ((BaseElement)elementArray.get(i)).getRightY() )
-    	    						  {
-    	    							  if (y2 >= ((BaseElement)elementArray.get(i)).getLeftY() && y2 >= ((BaseElement)elementArray.get(i)).getRightY() )
-    	    							  {
-    	    								  ((BaseElement)elementArray.get(i)).setSelect(true);	
-    	    							  }	 
-    	    						  }  
-    	    					  }
-    	    				  }
-    	    			}
-    	    		
+    				for (int i = 0; i < elementArray.size(); i++)
+    	    		{
+    					if (((BaseElement)elementArray.get(i)).CheckPointBetween(x1, y1, x2, y2))
+    					{
+    						((BaseElement)elementArray.get(i)).setSelect(true);	
+    					}
+    	    		}
     			}
     		}
     		if (state == 2 || state == 3 || state == 4)
@@ -231,22 +221,21 @@ public class UMLMainWindow extends JFrame implements ActionListener
 	  	  		  	{
 	  	  		  		if (((BaseElement)elementArray.get(i)).CheckPointInElement(x2, y2))
 	  	  		  		{
-	  	  		  					LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
-	  	  		  				  //LocEnum tempEnd = DecidePosition(((BaseElement)elementArray.get(i)), x2 , y2);
-	  	  		  				  if (state == 2)
-	  	  		  			 	  {
-									  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-								  }
-								  if (state == 3)
-								  {
-									  lineArray.add(new Generalizationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-								  }
-								  if (state == 4)
-								  {
-									  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
-								  }
-								  tempElement = null;
-	  	  		  					break;
+	  	  		  			LocEnum tempEnd = ((BaseElement)elementArray.get(i)).CheckLinePosition(x2 , y2);
+	  	  		  			  if (state == 2)
+	  	  		  		 	  {
+								  lineArray.add(new Associationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+							  }
+							  if (state == 3)
+							  {
+								  lineArray.add(new Generalizationline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+							  }
+							  if (state == 4)
+							  {
+								  lineArray.add(new Compositionline(tempElement, ((BaseElement)elementArray.get(i)), tempStart, tempEnd));
+							  }
+							  tempElement = null;
+							  break;
 	  	  		  		}
 	  	  		  	}
     			}
