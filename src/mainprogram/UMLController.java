@@ -1,20 +1,14 @@
 package mainprogram;
 
 import java.awt.Graphics;
-
-import line.Associationline;
-import line.Compositionline;
-import line.Generalizationline;
 import line.LineBase;
 import atom.BaseElement;
-import atom.ClassElement;
-import atom.UseClassElement;
+
 
 public class UMLController {
 	UMLMainWindow uView;
 	Setstringwindow sView;
 	UMLModel uModel;
-	
 	
 	public UMLController(UMLModel model)
 	{
@@ -26,11 +20,13 @@ public class UMLController {
 	public void MousePressed(int x1, int y1)
 	{
 		uModel.MousePressed(x1, y1);
+		uView.Update();
 	}
 	
 	public void MouseRelease(int x2, int y2)
 	{
     	uModel.MouseReleased(x2, y2);
+    	uView.Update();
 	}
 	
 	public void Draw(Graphics g)

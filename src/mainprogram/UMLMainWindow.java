@@ -1,12 +1,6 @@
 package mainprogram;
 
 import javax.swing.*;
-
-import atom.BaseElement;
-import atom.ClassElement;
-import atom.GroupElement;
-import atom.UseClassElement;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,13 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import line.Associationline;
-import line.Compositionline;
-import line.Generalizationline;
-import line.LineBase;
-
 
 public class UMLMainWindow extends JFrame implements ActionListener
 {

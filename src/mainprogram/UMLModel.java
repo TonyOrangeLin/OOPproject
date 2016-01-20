@@ -1,8 +1,6 @@
 package mainprogram;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
-
 import line.Associationline;
 import line.Compositionline;
 import line.Generalizationline;
@@ -50,6 +48,8 @@ public class UMLModel {
     
     public void MousePressed(int x1, int y1)
     {
+    	this.x1 = x1;
+    	this.y1 = y1;
     	if (state == StateEnum.SELECT || state == StateEnum.ASSOCIATION || state == StateEnum.COMPOSITION || state == StateEnum.GENERALIZATION)
   	    {
 	    	for (int i = elementArray.size() - 1; i >= 0; i--)
@@ -69,6 +69,8 @@ public class UMLModel {
     
     public void MouseReleased(int x2, int y2)
     {
+    	this.x2 = x2;
+    	this.y2 = y2;
     	if (x1 == x2 && y1 == y2)//not drag
     	{
     	  	if (state == StateEnum.SELECT)
